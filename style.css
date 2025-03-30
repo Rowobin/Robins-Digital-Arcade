@@ -1,0 +1,33 @@
+:root {
+    --color-primary: #525CEB;
+    --color-background: #F8EDFF;
+    --color-secondary: #8D9FE7;
+    --color-text: #3D3B40;
+}
+
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "Jersey 15", monospace;
+}
+
+body {
+    font-size: 20px; 
+}
+
+
+/* Canvas Styles*/
+.arcade{
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+}
+
+#arcade-canvas{
+    height: 100%;
+    width: 100%;
+}
