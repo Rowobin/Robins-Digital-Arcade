@@ -31,7 +31,7 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure = 1.5;
+renderer.toneMappingExposure = 1.6;
 renderer.outputEncoding = THREE.sRGBEncoding;
 
 // Scene
@@ -76,11 +76,11 @@ gltfLoader.load("./public/arcade.glb",
 // LIGHT SET UP
 
 // Ambient light
-const ambLight = new THREE.AmbientLight(0x404040, 1.2);
+const ambLight = new THREE.AmbientLight(0x404040, 0.9);
 scene.add(ambLight);
 
 // Main light
-const mainLight = new THREE.DirectionalLight(0xFFFF77, 0.5);
+const mainLight = new THREE.DirectionalLight(0xFFFF99, 0.5);
 mainLight.position.set(50, 75, 50);
 mainLight.target.position.set(0, 0, 0);
 scene.add(mainLight.target);
