@@ -76,7 +76,7 @@ gltfLoader.load("./public/arcade.glb",
 // LIGHT SET UP
 
 // Ambient light
-const ambLight = new THREE.AmbientLight(0x404040, 0.9);
+const ambLight = new THREE.AmbientLight(0x404040, 1.5);
 scene.add(ambLight);
 
 // Main light
