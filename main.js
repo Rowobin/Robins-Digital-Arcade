@@ -1,6 +1,6 @@
 import * as THREE from 'three';
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import gamesInfo from './games.js';
 
 // GLOBAL VARIABLES
 
@@ -17,6 +17,28 @@ let player = {
     isMoving: false,
     moveDuration: 0.4
 }
+
+// Disable click events
+let canClick = false;
+
+// Intersectable objects
+let clickableObjects = [];
+let duckObjects = [];
+let gameObjects = [];
+
+// HTML elements
+let loadingScreen = document.getElementById('loading');
+
+let welcomePopup = document.getElementById('welcome');
+let welcomePopupCloseButton = document.getElementById('welcome-exit-button');
+
+let mailboxPopup = document.getElementById('mailbox');
+let mailboxPopupCloseButton = document.getElementById('mailbox-exit-button');
+
+let gamePopup = document.getElementById('game');
+let gamePopupContent = document.getElementById('game-content');
+let gameBorder = document.getElementById('game-border');
+let gamePopupCloseButton = document.getElementById('game-exit-button');
 
 // THREE.JS BASE SET UP
 
@@ -49,27 +71,23 @@ camera.position.x = 20;
 camera.position.y = 20;
 camera.position.z = 20;
 
+// Raycaster
+const raycaster = new THREE.Raycaster();
+
 // IMPORT 3D MAP
 
 const gltfLoader = new GLTFLoader();
 gltfLoader.load("./public/arcade.glb",
     function(glb){
         scene.add(glb.scene);
-        glb.scene.traverse(child=>{
-            // meshes
-            if(child.isMesh){
-                child.castShadow = true;
-                child.receiveShadow = true;
+       
+        clickableObjects = scene.getObjectByName("Clickable").children;
+        duckObjects = scene.getObjectByName("Duck").children;
+        gameObjects = scene.getObjectByName("Game").children;
 
-                if (child.material.isMeshStandardMaterial || child.material.isMeshPhysicalMaterial) {
-                    child.material.roughness = 1.0; 
-                    child.material.metalness = 0.0;             
-                }
-            // groups
-            }
-        })
         player.instance = scene.getObjectByName("Chicken");
         camera.lookAt(player.instance.position);
+        loadingScreen.classList.toggle('hidden');
     }
 )
 
@@ -136,6 +154,49 @@ function onKeyDown(event){
     movePlayer(targetPosition, targetRotation, targetPositionCamera);
 }
 
+// Interact with objects
+function onClick(event){
+    if(canClick){
+        event.preventDefault();
+
+        // Get cursor coords
+        const rect = canvas.getBoundingClientRect();
+        const x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+        const y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+
+        raycaster.setFromCamera(new THREE.Vector2(x, y), camera);
+
+        // Clickable objects
+        let intersects = raycaster.intersectObjects(clickableObjects, true);
+        for(let i = 0; i < intersects.length; i++){
+            if(intersects[i].object.parent.name == "Welcome"){
+                welcomePopup.classList.toggle("hidden");
+                canClick = false;
+                break;
+            }
+            if(intersects[i].object.parent.name == "Mail"){
+                mailboxPopup.classList.toggle("hidden");
+                canClick = false;
+                break;
+            }
+        }
+        
+        // Ducks
+        intersects = raycaster.intersectObjects(duckObjects, true);
+        if(intersects.length > 0){
+            duckJump(intersects[0].object.parent);
+        }
+
+        // Games
+        intersects = raycaster.intersectObjects(gameObjects, true);
+        if(intersects.length > 0){
+            console.log(intersects[0].object.parent.name);
+            playGame(intersects[0].object.parent)
+        }
+    }
+}
+window.addEventListener('click', onClick);
+
 // Responsive sizing
 function onResize(){
     sizes.width = window.innerWidth;
@@ -148,6 +209,30 @@ function onResize(){
 
 window.addEventListener('keydown', onKeyDown);
 window.addEventListener('resize', onResize);
+
+// Close Welcome Popup
+welcomePopupCloseButton.addEventListener('click', function(event){
+    welcomePopup.classList.toggle("hidden");
+    enableCanClick();
+});
+
+// Close Mailbox Popup
+mailboxPopupCloseButton.addEventListener('click', function(event){
+    mailboxPopup.classList.toggle("hidden");
+    enableCanClick();
+});
+
+// Close Game Popup
+gamePopupCloseButton.addEventListener('click', function(event){
+    gamePopup.classList.toggle("hidden");
+    enableCanClick();
+});
+
+function enableCanClick() {
+    setTimeout(function() {
+        canClick = true;
+    }, 100);
+}
 
 // GSAP ANIMATION FUNCTIONS
 
@@ -191,4 +276,61 @@ function movePlayer(targetPosition, targetRotation, targetPositionCamera){
         z: targetPositionCamera.z,
         duration: player.moveDuration
     }, 0);
+}
+
+function duckJump(duck){
+    const t1 = gsap.timeline();
+
+    t1.to(duck.position, {
+        y: duck.position.y + 0.7,
+        duration: 0.2,
+        ease: "power2.out",
+        yoyo: true,
+        repeat: 1,
+        repeatDelay: 0.05
+    });
+}
+
+// Play game
+function playGame(gameMachine){
+    canClick = false;
+
+    const t1 = gsap.timeline({
+        onComplete: () => {
+            const gameInfo = gamesInfo[gameMachine.name];
+
+            if(gameInfo["HasGame"]){
+                gamePopupContent.innerHTML =
+                `
+                    ${gameInfo["Game"]}
+                    <div>
+                    <h2>${gameInfo["Name"]}</h2>
+                    </div>
+                `;
+            } else {
+                gamePopupContent.innerHTML =
+                `
+                    <h2>${gameInfo["Name"]}</h2>
+                    <p>This machine does not have a game yet, try to come back later!</p>
+                `;
+            }
+
+            gameBorder.classList.forEach(className => {
+                if(className != "game-content" && className != "popup-content"){
+                    gameBorder.classList.remove(className);
+                }
+            })
+            gameBorder.classList.add("game-" + gamesInfo[gameMachine.name]["Color"]);
+            gamePopup.classList.toggle("hidden");
+        }
+    });
+
+    t1.to(gameMachine.position, {
+        y: gameMachine.position.y + 0.5,
+        duration: 0.15,
+        ease: "power2.out",
+        yoyo: true,
+        repeat: 1,
+        repeatDelay: 0.05
+    })
 }

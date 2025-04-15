@@ -15,6 +15,45 @@
         <canvas id="arcade-canvas"></canvas>
     </div>
 
+    <!--Loading screen-->
+    <div id="loading" class="popup-container loading">
+      <h2>Loading...</h2>
+      <p>Please be patient: this entire webpage is powered by a hamster on a wheel, he's trying his best!</p>
+    </div>
+
+    <!--Welcome-->
+    <div id="welcome" class="popup-container">
+      <div class="welcome-content popup-content">
+        <button id="welcome-exit-button" class="popup-close">&times;</button>
+        <div>
+          <h2>Welcome to Robin's digital arcade!</h2>
+          <p>Everything in this website (games, models, code) was made by me. I hope you enjoy your time at my little arcade.</p>
+        </div>
+      </div>
+    </div>
+
+    <!--Mail Box Popup-->
+    <div id="mailbox" class="popup-container hidden">
+      <div class="mailbox-content popup-content">
+        <button id="mailbox-exit-button" class="popup-close">&times;</button>
+        <div>
+          <h2>You found my mailbox!</h2>
+          <p>Found out more about me <a href="https://rowobin.github.io/3D-Room-Portfolio/">here.</a></p>
+        </div>
+      </div>
+    </div>
+
+    <!--Game Popup-->
+    <div id="game" class="popup-container hidden">
+      <div id="game-border" class="game-content popup-content game-orange">
+        <button id="game-exit-button" class="popup-close">&times;</button>
+        <div id="game-content">
+          <h2>Game Popup</h2>
+          <p>Some text here.</p>
+        </div>
+      </div>
+    </div>
+
     <!--Import Three.js-->
     <script type="importmap">
         {

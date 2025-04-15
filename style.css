@@ -1,8 +1,14 @@
 :root {
-    --color-primary: #525CEB;
-    --color-background: #F8EDFF;
-    --color-secondary: #8D9FE7;
-    --color-text: #3D3B40;
+    --black: #505050;
+    --white: #FFFFFF;
+    --red: #FF595E;
+    --orange: #FF924C;
+    --yellow: #FFCA3A;
+    --green: #8AC926;
+    --green-dark: #52A675;
+    --blue: #1E91C4;
+    --blue-dark: #4267AC;
+    --blue-really-dark: #6A4C93;
 }
 
 *{
@@ -15,7 +21,6 @@
 body {
     font-size: 20px; 
 }
-
 
 /* Canvas Styles*/
 .arcade{
@@ -30,4 +35,179 @@ body {
 #arcade-canvas{
     height: 100%;
     width: 100%;
+}
+
+/* Common Pop Up Styles */
+.popup-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 30px;
+    height: 30px;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+
+    font-size: 20px;
+
+    border: none;
+}
+
+.popup-container{
+    z-index: 100;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    background-color: rgba(0, 0, 0, 0.5);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    overflow-y: auto;
+
+    padding: 20px;
+}
+
+.popup-content{
+    position: relative;
+    min-width: 240px;
+    width: 50%;
+    max-height: 90vh;
+
+    overflow-y: auto;
+    
+    border: 8px solid;
+    padding: 20px;
+    text-align: center;
+}
+
+/* Loading Screen Styles*/
+.loading{
+    z-index: 200;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+
+    color: var(--orange);
+    background-color: var(--yellow)
+}
+
+/* Welcome Screen Stytles */
+.welcome-content{
+    background-color: var(--yellow);
+   
+    border-color: var(--white);
+    color: var(--orange);
+
+    .popup-close{
+        color: var(--orange);
+        background-color: var(--white);
+    }
+}
+
+/* Mailbox styles */
+
+.mailbox-content{
+    background-color: var(--white);
+   
+    border-color: var(--blue-dark);
+    
+    color: var(--blue-dark);
+
+    .popup-close{
+        color: white;
+        background-color: var(--blue-dark);
+    }
+
+    a{
+        color: var(--blue-dark);
+    }
+}
+
+/* Game popup styles */
+.game-content{
+    width: 80%;
+
+    background-color: var(--black);
+    
+    border: none;
+    border-top: 24px solid;
+    border-bottom: 24px solid;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .popup-close{
+        color: var(--white);
+        background-color: var(--red);
+    }
+
+    h2{
+        background-color: var(--white);
+        display:inline;
+    }
+
+}
+
+.game-red{
+    border-color: var(--red);
+    color: var(--red);
+
+    a{
+        color: var(--red);
+    }
+}
+
+.game-orange{
+    border-color: var(--orange);
+    color: var(--orange);
+
+    a{
+        color: var(--orange);
+    }
+}
+
+.game-yellow{
+    border-color: var(--yellow);
+    color: var(--yellow);
+
+    a{
+        color: var(--yellow);
+    }
+}
+
+.game-blue-light{
+    border-color: var(--blue);
+    color: var(--blue);
+
+    a{
+        color: var(--blue);
+    }
+}
+
+.game-blue-dark{
+    border-color: var(--blue-dark);
+    color: var(--blue-dark);
+
+    a{
+        color: var(--blue-dark);
+    }
+}
+
+/* Utils */
+
+.hidden{
+    display: none;
 }
