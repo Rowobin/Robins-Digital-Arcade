@@ -1,6 +1,6 @@
 # Robins-Digital-Arcade
 
-An outdoor's arcade inside your browser :)
+An outdoor arcade inside your browser :)
 
 I'm learning game development and wanted a place to showcase my games to friends and others, so I decided to create a little arcade for myself.
 
