@@ -225,6 +225,7 @@ mailboxPopupCloseButton.addEventListener('click', function(event){
 // Close Game Popup
 gamePopupCloseButton.addEventListener('click', function(event){
     gamePopup.classList.toggle("hidden");
+    gamePopupContent.innerHTML = "";
     enableCanClick();
 });
 
@@ -303,15 +304,11 @@ function playGame(gameMachine){
                 gamePopupContent.innerHTML =
                 `
                     ${gameInfo["Game"]}
-                    <div>
-                    <h2>${gameInfo["Name"]}</h2>
-                    </div>
                 `;
             } else {
                 gamePopupContent.innerHTML =
                 `
                     <h2>${gameInfo["Name"]}</h2>
-                    <p>This machine does not have a game yet, try to come back later!</p>
                 `;
             }
 
