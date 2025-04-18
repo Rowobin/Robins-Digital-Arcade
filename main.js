@@ -83,22 +83,22 @@ camera.add(listener);
 const sound_music = new THREE.Audio(listener);
 
 const audioLoader = new THREE.AudioLoader();
-audioLoader.load('/public/background_music.mp3', function(buffer){
+audioLoader.load('./public/background_music.mp3', function(buffer){
     sound_music.setBuffer(buffer);
     sound_music.setLoop(true);
-    sound_music.setVolume(0.5);
+    sound_music.setVolume(0.6);
     sound_music.play();
 });
 
 const sound_duck = new THREE.Audio(listener);
-audioLoader.load('/public/quack.mp3', function(buffer){
+audioLoader.load('./public/quack.mp3', function(buffer){
     sound_duck.setBuffer(buffer);
     sound_duck.setLoop(false);
     sound_duck.setVolume(0.4);
 });
 
 const sound_jump = new THREE.Audio(listener);
-audioLoader.load('/public/jump.mp3', function(buffer){
+audioLoader.load('./public/jump.mp3', function(buffer){
     sound_jump.setBuffer(buffer);
     sound_jump.setLoop(false);
     sound_jump.setVolume(0.3);
