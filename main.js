@@ -74,6 +74,36 @@ camera.position.z = 20;
 // Raycaster
 const raycaster = new THREE.Raycaster();
 
+// AUDIO SET UP
+
+// Audio 
+const listener = new THREE.AudioListener();
+camera.add(listener);
+
+const sound_music = new THREE.Audio(listener);
+
+const audioLoader = new THREE.AudioLoader();
+audioLoader.load('/public/background_music.mp3', function(buffer){
+    sound_music.setBuffer(buffer);
+    sound_music.setLoop(true);
+    sound_music.setVolume(0.5);
+    sound_music.play();
+});
+
+const sound_duck = new THREE.Audio(listener);
+audioLoader.load('/public/quack.mp3', function(buffer){
+    sound_duck.setBuffer(buffer);
+    sound_duck.setLoop(false);
+    sound_duck.setVolume(0.4);
+});
+
+const sound_jump = new THREE.Audio(listener);
+audioLoader.load('/public/jump.mp3', function(buffer){
+    sound_jump.setBuffer(buffer);
+    sound_jump.setLoop(false);
+    sound_jump.setVolume(0.3);
+});
+
 // IMPORT 3D MAP
 
 const gltfLoader = new GLTFLoader();
@@ -226,6 +256,7 @@ mailboxPopupCloseButton.addEventListener('click', function(event){
 gamePopupCloseButton.addEventListener('click', function(event){
     gamePopup.classList.toggle("hidden");
     gamePopupContent.innerHTML = "";
+    sound_music.play();
     enableCanClick();
 });
 
@@ -240,6 +271,7 @@ function enableCanClick() {
 // Player movement
 function movePlayer(targetPosition, targetRotation, targetPositionCamera){
     player.isMoving = true;
+    sound_jump.play();
 
     const t1 = gsap.timeline({
         onComplete: () =>{
@@ -280,6 +312,8 @@ function movePlayer(targetPosition, targetRotation, targetPositionCamera){
 }
 
 function duckJump(duck){
+    sound_duck.play();
+
     const t1 = gsap.timeline();
 
     t1.to(duck.position, {
@@ -294,6 +328,8 @@ function duckJump(duck){
 
 // Play game
 function playGame(gameMachine){
+    sound_music.pause();
+
     canClick = false;
 
     const t1 = gsap.timeline({
