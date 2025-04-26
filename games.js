@@ -3,7 +3,7 @@ const gamesInfo = {
         "HasGame" : true,
         "Color" : "red",
         "Name": "Space Rocks (Red Version)",
-        "Game": '<iframe frameborder="0" src="https://itch.io/embed-upload/13414833?color=FF595E" allowfullscreen="" width="1024" height="532"><a href="https://robinssecret.itch.io/spacerocks-red-version">Play SpaceRocks (Red version) on itch.io</a></iframe>'
+        "Game": '<iframe frameborder="0" src="https://itch.io/embed-upload/13414833?color=FF595E" width="1024" height="532"><a href="https://robinssecret.itch.io/spacerocks-red-version">Play SpaceRocks (Red version) on itch.io</a></iframe>'
     },
     "Game02": {
         "HasGame" : false,
